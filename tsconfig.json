@@ -4,23 +4,20 @@
         "noImplicitAny": true,
         "sourceMap": true,
         "isolatedModules": true,
-        "target":"es6",
+        "jsx":"react",
+        "target":"es2015",
         "strictNullChecks": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "downlevelIteration":true,
-         "typeRoots":[
-             "typings"
-         ],
+        "moduleResolution": "node",  
         "baseUrl": ".", 
          "paths": {
-              "@SDom/*": ["../src/js/common/*"],
-              "@CommonCss/*": ["../src/css/common/*"]
+              "@js/*": ["./src/js/*"],
+              "@css/*": ["./src/css/*"]
          },
-        "lib": ["es7","dom"]
-    },
-    "exclude": [
-        "node_modules",
-        "**/*.spec.ts"
-    ]
+        "lib": ["es2015","dom"]
+    }
+    
+    
 }

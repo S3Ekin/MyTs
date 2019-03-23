@@ -1,31 +1,59 @@
 const path = require("path");
-
-
+const webpack = require("webpack");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin"); 
+const CleanDistPlugin = require("clean-webpack-plugin");
 module.exports = {
 		entry:{
-			main:path.join(__dirname,"src/index.ts"),
+			main:path.join(__dirname,"src/App.tsx"),
 		},
 		output:{
 			path:path.join(__dirname,"dist"),
 			filename:"[name].js",
 		},
-		mode:"production",	
+		mode:"development",	
 		module:{
 			rules:[
 				{
-					test:/\.ts$/,
+					test:/\.tsx?$/,
 					exclude: /node_modules|assert/, // 排除不处理的目录
 				  include: path.resolve(__dirname, 'src'), // 精确指定要处理的目录
 					use: [{
 						loader: "ts-loader"
 					}]	
 				},
+				{
+					test:/.(css|scss)$/,
+					exclude: /node_modules|assert/, // 排除不处理的目录
+				  include: path.resolve(__dirname, 'src'), // 精确指定要处理的目录
+					use: [
+									{
+										loader:"style-loader",
+										 options: {
+								            sourceMap: true,
+								          }
+									},
+									{
+										loader:"css-loader",
+										 options: {
+								            sourceMap: true,
+								          }
+									},
+									{
+										loader:"sass-loader",
+										options: {
+            								sourceMap: true,
+         								 }
+									},
+					]	
+				},
 
 			]
 		},
 		resolve: {
-				extensions: ['.js', '.less', '.json',".scss"],
+				extensions: ['.js', '.css', ".tsx",'.json',".scss",".ts"],
 				modules: ['node_modules'],
+			  plugins: [new TsconfigPathsPlugin({configFile: "./tsconfig.json"})],
 				alias: { //配置绝对路径的文件名
 		            css: path.join(__dirname, 'src/css'),
 		            js: path.join(__dirname, 'src/js'),
@@ -34,10 +62,40 @@ module.exports = {
 		        },
 		},
 		optimization: {
-				minimize: false,
+			///	minimize: false,
+			splitChunks: {
+      chunks: 'async',
+     // minSize: 30000,
+    //   maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: true,
+      cacheGroups: {
+        vendors: {
+       						test: /node_modules/,
+					        chunks:"all" ,
+					        name: "vendor",
+					        priority: 10,
+					        enforce: true
+        },
+      }
+    }
+
 		},
 		plugins:[
 
+				new htmlWebpackPlugin({
+						title:"ts-react",
+						filename:"index.html",
+						inject:"body",
+						hash:true,
+						template:path.join(__dirname,"src/index.html"),
+						chunks:["vendor","main"]
+				}),
+				new CleanDistPlugin({cleanOnceBeforeBuildPatterns:['dist']}),
+			 new webpack.HotModuleReplacementPlugin(),//模块的热替换
+	 		 new webpack.NamedModulesPlugin(), //热更新时显示更新的模块的名字，默认是模块的id
 
 		],
 		devServer: {

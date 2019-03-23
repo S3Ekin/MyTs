@@ -11,4 +11,3 @@ import * as $ from "jquery";
 
 
 declare const first = 444;
-
