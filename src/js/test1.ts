@@ -1,3 +1,4 @@
+
 enum Weekday {
   Monday,
   Tuseday,
@@ -7,6 +8,7 @@ enum Weekday {
   Saturday,
   Sunday
 }
+
 
 namespace Weekday {
   export function isBusinessDay(day: Weekday) {
@@ -20,7 +22,6 @@ namespace Weekday {
   }
 }
 
-window.g
 
 const mon = Weekday.Monday;
 const sun = Weekday.Sunday;
