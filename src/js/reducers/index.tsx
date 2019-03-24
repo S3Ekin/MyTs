@@ -13,6 +13,9 @@ type action = {
 	[key:string]:any;
 }
 
+
+let ItemId = 0;
+
 function visibilityFilter(state:string = SHOW_ALL, action:action) {
   switch (action.type) {
     case SET_VISIBILITY_FILTER:
@@ -29,7 +32,8 @@ function todos(state:any[] = [], action:action) {
         ...state,
         {
           text: action.text,
-          completed: false
+          completed: false,
+          id:ItemId++,
         }
       ]
     case TOGGLE_TODO:

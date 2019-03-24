@@ -4,12 +4,14 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin"); 
 const CleanDistPlugin = require("clean-webpack-plugin");
 module.exports = {
+	  devtool:"eval-source-map",
 		entry:{
 			main:path.join(__dirname,"src/App.tsx"),
 		},
 		output:{
 			path:path.join(__dirname,"dist"),
 			filename:"[name].js",
+			publicPath:"/",
 		},
 		mode:"development",	
 		module:{
@@ -105,7 +107,9 @@ module.exports = {
 		        noInfo: false,
 		        inline: true, //开启页面自动刷新,
 		        hot:true,
-		       // publicPath:PATHS.publicPath,
+		        hotOnly: true,//开启后，页面不会刷新，不然一改页面就会刷新
+		        lazy:false,
+		        publicPath:"/",
 		        compress:true,
 		        progress: false, //显示打包的进度
 		        overlay:{  //把编译的错误显示在浏览器上

@@ -1,14 +1,16 @@
-import {createStore} from "redux";
-import  todoApp from "./reducers/index" ;
+import * as React from "react" ;
 
-declare global {
-    interface Window {
-         __REDUX_DEVTOOLS_EXTENSION__: any;
-  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
-    }
-}
-const store  = createStore(todoApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+import VisiblityTodoList from "./containers/VisiblityTodoList";
+import AddTodo from "./containers/AddTodo";
 
-console.log(store);
 
-window.g
+const App = function(){
+
+		return (<div>
+							<AddTodo/>
+							<VisiblityTodoList />
+						</div>)
+
+
+};
+export	default App ;
