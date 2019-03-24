@@ -2,6 +2,7 @@
 interface Window {
   helloWorld(): void;
   g:string;
+  gh:number;
 }
 
 

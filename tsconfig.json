@@ -4,21 +4,70 @@
         "noImplicitAny": true,
         "sourceMap": true,
         "isolatedModules": true,
-        "target":"es6",
+        "jsx":"react",
+        "allowJs":true,
+        "target":"es2015",
         "strictNullChecks": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "downlevelIteration":true,
-         "typeRoots":[
-             "typings"
-         ],
+        "moduleResolution": "node",  
+         "rootDir": "src",
         "baseUrl": ".", 
          "paths": {
-              "@SDom/*": ["../src/js/common/*"],
-              "@CommonCss/*": ["../src/css/common/*"]
+              "@js/*": ["./src/js/*"],
+              "@css/*": ["./src/css/*"]
          },
-        "lib": ["es7","dom"]
+        "lib": ["es2015","dom"],
+        "types":["node"],
+         "typeRoots" : ["./typings"]
+     },
+      "exclude": [
+        "node_modules",
+        "**/*.spec.ts"
+      ]
+    
+    
+}
+      "module": "es2015",
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "isolatedModules": true,
+        "jsx": "react",
+        "allowJs": true,
+        "target": "es2015",
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "downlevelIteration": true,
+        "moduleResolution": "node",
+        "rootDir": "src",
+        "baseUrl": ".",
+        "paths": {
+            "@js/*": [
+                "./src/js/*"
+            ],
+            "@css/*": [
+                "./src/css/*"
+            ]
+        },
+        "lib": [
+            "es2015",
+            "dom"
+        ],
+        "types": [
+            "node"
+        ],
+        "typeRoots": [
+            "./typings"
+        ]
     },
+    "files": [
+        "typings/globals.d.ts"
+    ],
+    "filesGlob": [
+        "typings/**/*.d.ts"
+    ],
     "exclude": [
         "node_modules",
         "**/*.spec.ts"

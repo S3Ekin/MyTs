@@ -1,3 +1,9 @@
+
+
+var  t = require("immutable");
+
+console.log(t)
+
 enum Weekday {
   Monday,
   Tuseday,
@@ -7,6 +13,7 @@ enum Weekday {
   Saturday,
   Sunday
 }
+
 
 namespace Weekday {
   export function isBusinessDay(day: Weekday) {
