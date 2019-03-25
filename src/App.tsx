@@ -1,11 +1,10 @@
 import "@css/main.scss";
-import App from "./js/index";
+import App from "./js/Router";
 import {Provider} from "react-redux"
 import {createStore} from "redux";
 import  todoApp from "./js/reducers/index" ;
 import * as React from "react";
 import * as ReactDom from "react-dom" ;
-
 
 const store  = createStore(todoApp,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
@@ -28,14 +27,14 @@ ReactDom.render((
 if(module.hot){
 
 
-		module.hot.accept("./js/index",()=>{
+		module.hot.accept("./js/Router",()=>{
 
-					import("./js/index").then((module:any)=>{
+					import("./js/Router").then((module:any)=>{
 
 						const AppCom = module.default;
 						
 							ReactDom.render((
-									<Provider store={store}>
+								<Provider store={store}>
 										<AppCom />
 								</Provider>
 								),domApp);
