@@ -1,18 +1,28 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {addTodo} from "../actions/index"
+
+import {fetchPosts} from "../actions/index";
 
 
+type addProp = {
+	subscreddit:string;
+	fetch(subscreddit:string):any;
+}
 
+const AddTodo = ({subscreddit,fetch}:addProp)=>{
 
+	let inp:React.RefObject<HTMLInputElement> = React.createRef() ;
 
-const AddTodo = ({dispatch}:any)=>{
-
-		let inp:React.RefObject<HTMLInputElement> = React.createRef() ;
+	console.log(subscreddit)
+	const onChange = function(e:React.ChangeEvent<HTMLInputElement>){
+			fetch(e.target.value);
+	}
 
 	return (
 				<div>
 					<input ref={inp} />
+					<label htmlFor="reactjs">reactJs </label><input type="radio"  name="subsreddit" id="reactjs" value="reactjs" onChange={onChange} />
+					<label htmlFor="fontEnd">fontEnd</label> <input type="radio" name="subsreddit" id="fontEnd" value="fontEnd" onChange={onChange} />
 					<button 
 
 					onClick={()=>{
@@ -24,9 +34,7 @@ const AddTodo = ({dispatch}:any)=>{
 										return ;	
 							}
 
-							dispatch(addTodo(text))		
-								inpEl.value = "";
-
+							inpEl.value = "";
 
 					}}>添加</button>
 				</div>
@@ -34,10 +42,31 @@ const AddTodo = ({dispatch}:any)=>{
 
 };
 
+const mapStateToProp = function(state:State){
+
+		return {
+			subscreddit:state.selectSubreddit
+		}
+
+
+};
+
+const mapDispatchToProp = function(dispatch:any){
+
+	return {
+		fetch:(subsreddit:string)=>{
+
+					dispatch(fetchPosts(subsreddit));
+		}
+	}
+
+};
 
 
 
-export default connect()(AddTodo);
+
+
+export default connect(mapStateToProp,mapDispatchToProp)(AddTodo);
 
 
 

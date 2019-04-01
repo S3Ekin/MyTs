@@ -3,21 +3,15 @@ import  * as  React from "react";
 
 type props = {
 		text:string;
-		onTodoClick:(e:React.MouseEvent)=>void;
-		completed:boolean;
 }
 
-const Todo = ({text,onTodoClick,completed}:props)=>(
+const Todo = ({text}:props)=>(
 
 
 		<li
-		  
-		  onClick={onTodoClick}
 		  className="todo"
-			style={{color:completed ? 'red' : 'black'}}
+			style={{color: 'red'}}
 		>{text}</li>
-
-
 
 	);
 

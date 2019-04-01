@@ -1,60 +1,96 @@
 import { combineReducers } from 'redux'
 import {
-  ADD_TODO,
-  TOGGLE_TODO,
-  SET_VISIBILITY_FILTER,
-  VisibilityFilters
+  RECEIVE_POSTS,
+  REQUEST_POSTS,
+  INVALIDATE_SUBREDDIT,
+  SELECT_SUBREDDIT,
 } from '../actions/index';
 
-const { SHOW_ALL } = VisibilityFilters;
+type actionType = {
+  type:string;
+  subreddit:string;
+  json?:any[];
+  isFectching?:boolean;
+  didInvalidate?:boolean;
+  lastUpdated?:number;
+};
 
-type action = {
-	type:string;
-	[key:string]:any;
-}
+const selectSubreddit = function(state:State["selectSubreddit"]="reactjs",action:actionType){
+
+    if(action.type === SELECT_SUBREDDIT){
+      return action.subreddit
+    }else{
+      return state;
+    }
+};
+// 再拆分state
+const posts = function(state: State["postBySubreddit"][keyof State["postBySubreddit"]] = {
+     isFectching:false,
+     didInvalidate:false,
+     items:[],
+     lastUpdated:0
+  },action:actionType){
 
 
-let ItemId = 0;
-
-function visibilityFilter(state:string = SHOW_ALL, action:action) {
   switch (action.type) {
-    case SET_VISIBILITY_FILTER:
-      return action.filter
-    default:
-      return state
-  }
-}
-
-function todos(state:any[] = [], action:action) {
-  switch (action.type) {
-    case ADD_TODO:
-      return [
+    case RECEIVE_POSTS:
+        return {
+          ...state,
+           isFectching:false,
+           didInvalidate:false,
+           items:action.json,
+           lastUpdated:action.lastUpdated,
+        }
+      break;
+    case REQUEST_POSTS:
+      return {
         ...state,
-        {
-          text: action.text,
-          completed: false,
-          id:ItemId++,
-        }
-      ]
-    case TOGGLE_TODO:
-      return state.map((todo, index:number) => {
-        if (index === action.index) {
-          return Object.assign({}, todo, {
-            completed: !todo.completed
-          })
-        }
-        return todo
-      })
+        isFectching:true,
+        didInvalidate:false,
+      }
+      break;
+    case INVALIDATE_SUBREDDIT:
+     return {
+        ...state,
+        didInvalidate:true,
+      }
+      break;
+    
     default:
-      return state
+      return state ;
+      break;
   }
 }
 
-const todoApp = combineReducers({
-  visibilityFilter,
-  todos
+const postBySubreddit = function(state:State["postBySubreddit"]={},action:actionType){
+
+  switch (action.type) {
+    case RECEIVE_POSTS:
+    case REQUEST_POSTS:
+    case INVALIDATE_SUBREDDIT:
+     
+     return {
+        ...state,
+        [action.subreddit]:posts(state[action.subreddit],action),
+      }
+      break;
+    
+    default:
+      return state ;
+      break;
+  }
+
+
+
+
+};
+
+
+const rootReducers = combineReducers({
+  selectSubreddit,
+  postBySubreddit
 })
 
-export default todoApp
+export default rootReducers
 
 

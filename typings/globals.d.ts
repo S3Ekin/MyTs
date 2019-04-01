@@ -2,14 +2,23 @@ interface Window{
 	__REDUX_DEVTOOLS_EXTENSION__:any;
 }
 
+
 interface Todo{
-	completed:boolean;
-	text:string;
-	id:number;
+	title:string;
+	id:string;
 }
+
+
 interface State {
-		todos:Todo[];
-		visibilityFilter:string;
+		 selectSubreddit:string,
+  	 postBySubreddit:{
+  	 		[key:string]:{
+          items:Todo[],
+          isFectching:boolean,
+          didInvalidate:boolean,
+          lastUpdated:number , 
+         }	
+  	 }
 }
 
 interface NodeModule {

@@ -1,9 +1,8 @@
 import {Route,Switch} from "react-router";
 import {Link,BrowserRouter} from "react-router-dom";
 import * as React from "react";
-import App from "./index";
 import Menu from "./common/Menu" ;
-
+import App from "./index"
 
 const ThemeContext = React.createContext("dark");
 
@@ -84,8 +83,8 @@ const Page = ()=>(
 						<BrowserRouter basename="asdf">
 							<Nav/>
 							<Switch>
-										  <Route path="/todo" component={App} />
 											<Route path="/about" component={About}  />
+											<Route path="/todo" component={App}  />
 											
 							</Switch>
 						</BrowserRouter>
