@@ -1,62 +1,60 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {slecteSubreddit,fetchPostsIfNeeded,invalidateSubreddit} from "../actions/index";
 
-import {fetchPosts} from "../actions/index";
-
-
-type addProp = {
+type stateProp = {
 	subscreddit:string;
-	fetch(subscreddit:string):any;
+}
+type dispatchProp = {
+		change:(subsreddit:string)=>void;
+	  refresh:(subsreddit:string)=>void;
 }
 
-const AddTodo = ({subscreddit,fetch}:addProp)=>{
 
-	let inp:React.RefObject<HTMLInputElement> = React.createRef() ;
+const AddTodo = ({subscreddit,change,refresh}: stateProp & dispatchProp)=>{
 
-	console.log(subscreddit)
 	const onChange = function(e:React.ChangeEvent<HTMLInputElement>){
-			fetch(e.target.value);
+			const value = e.target.value;
+			change(value);
 	}
 
 	return (
 				<div>
-					<input ref={inp} />
+					<p>{subscreddit}</p>
 					<label htmlFor="reactjs">reactJs </label><input type="radio"  name="subsreddit" id="reactjs" value="reactjs" onChange={onChange} />
 					<label htmlFor="fontEnd">fontEnd</label> <input type="radio" name="subsreddit" id="fontEnd" value="fontEnd" onChange={onChange} />
 					<button 
 
-					onClick={()=>{
+							onClick={()=>{
+										refresh(subscreddit);
+								}}
+					>刷新</button>
 
-							const inpEl = inp.current!
-							const text = inpEl.value;
-
-							if(!text.trim()){
-										return ;	
-							}
-
-							inpEl.value = "";
-
-					}}>添加</button>
 				</div>
 		)
 
 };
 
-const mapStateToProp = function(state:State){
+const mapStateToProp= function(state:State):stateProp{
 
 		return {
 			subscreddit:state.selectSubreddit
 		}
-
-
 };
 
-const mapDispatchToProp = function(dispatch:any){
+const mapDispatchToProp = function(dispatch:any):dispatchProp{
 
 	return {
-		fetch:(subsreddit:string)=>{
+		change:(subsreddit:string)=>{
+					dispatch(slecteSubreddit(subsreddit));
+					dispatch(fetchPostsIfNeeded(subsreddit));
 
-					dispatch(fetchPosts(subsreddit));
+		},
+		refresh:function(subsreddit:string){
+
+				dispatch(invalidateSubreddit(subsreddit));
+				dispatch(fetchPostsIfNeeded(subsreddit))
+
 		}
 	}
 

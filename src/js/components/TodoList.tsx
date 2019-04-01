@@ -4,13 +4,14 @@ import * as React from "react" ;
 
 type props = {
 	todos:Todo[];
+	isFectching:boolean,
 }
 
 const TodoList = (props:props)=>{
-		console.log(props);
 	return (
-
 		
+		<React.Fragment>
+		<p>状态：{props.isFectching ? "loading" : "finished"}</p>
 		<ul>
 				{
 					props.todos.map(({id,title}:Todo)=>(
@@ -21,7 +22,7 @@ const TodoList = (props:props)=>{
 				}
 
 		</ul>
-
+		</React.Fragment>
 	)};
 
 export default TodoList;

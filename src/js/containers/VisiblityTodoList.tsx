@@ -4,10 +4,13 @@ import TodoList from "../components/TodoList";
 
 const mapStateToProp = (state:State)=>{
 
-	const  post= state.postBySubreddit[state.selectSubreddit];
+	console.log(state,"aerre")
+
+	const {items=[],isFectching=false} = state.postBySubreddit[state.selectSubreddit] || {};
 
 	return {
-		todos: post ? post.items : [] ,
+		todos:items,
+		isFectching
 		}
 };
 
