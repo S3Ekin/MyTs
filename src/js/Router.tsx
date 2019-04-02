@@ -57,7 +57,12 @@ const data = [
 	}
 ];
 
-const About = ()=>(
+const About = (props:{})=>{
+
+
+	console.log(props)
+
+	return (
 			<ThemeContext.Provider value="d">
 			<div>
 					<p>
@@ -69,7 +74,8 @@ const About = ()=>(
 					</div>
 			</div>
 			</ThemeContext.Provider >
-	);
+	)
+};
 
 const Nav = ()=>(
 			 <div>
@@ -80,7 +86,7 @@ const Nav = ()=>(
 
 
 const Page = ()=>(
-						<BrowserRouter basename="asdf">
+						<BrowserRouter basename="/asdf">
 							<Nav/>
 							<Switch>
 											<Route path="/about" component={About}  />

@@ -4,7 +4,6 @@ import TodoList from "../components/TodoList";
 
 const mapStateToProp = (state:State)=>{
 
-	console.log(state,"aerre")
 
 	const {items=[],isFectching=false} = state.postBySubreddit[state.selectSubreddit] || {};
 
