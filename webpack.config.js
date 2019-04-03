@@ -12,6 +12,7 @@ module.exports = {
 			path:path.join(__dirname,"dist"),
 			filename:"[name].js",
 			publicPath:"/",
+			chunkFilename:'js/[name].[chunkhash:5].chunk.js',
 		},
 		mode:"development",	
 		module:{
@@ -20,9 +21,11 @@ module.exports = {
 					test:/\.tsx?$/,
 					exclude: /node_modules|assert/, // 排除不处理的目录
 				  include: path.resolve(__dirname, 'src'), // 精确指定要处理的目录
-					use: [{
-						loader: "ts-loader"
-					}]	
+					use: [
+							{
+							loader: "ts-loader"
+						}
+					]	
 				},
 				{
 					test:/.(css|scss)$/,

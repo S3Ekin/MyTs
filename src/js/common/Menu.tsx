@@ -54,8 +54,6 @@ const MapMenuItem = ({data,config}:MenuConfig,lev:number):React.ReactNodeArray=>
 							 		const id = val[idField] as string;
 							 		const child = val[childField] as any[];
 
-							 		console.log(_lev);
-
 							 		const obj:MenuItem = {
 							 				path:val.url,
 							 				text,

@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDom from "react-dom" ;
+//import * as ReactDom from "react-dom" ;
 
 import * as  Immutable  from "immutable" ;
 
@@ -91,6 +91,6 @@ e
 
 }
 
-ReactDom.render(<Comment foo="foo"  body="er" />,document.getElementById("app"));
+//ReactDom.render(<Comment foo="foo"  body="er" />,document.getElementById("app"));
 
 export default Comment ;

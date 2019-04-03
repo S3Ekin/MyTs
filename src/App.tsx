@@ -26,25 +26,26 @@ ReactDom.render((
 
 if(module.hot){
 
-
+		// 热替换react
 		module.hot.accept("./js/Router",()=>{
-
 					import("./js/Router").then((module:any)=>{
-
 						const AppCom = module.default;
-						
 							ReactDom.render((
 								<Provider store={store}>
 										<AppCom />
 								</Provider>
 								),domApp);
-											
-
 					});
-					
+		});
 
+		//热替换redux
 
-		})
+		module.hot.accept("./js/reducers/index",()=>{
 
+					import("./js/reducers/index").then((module:any)=>{
+						const nextRootReducers = module.default;
+						store.replaceReducer(nextRootReducers);
+					});
+		});
 
 }
