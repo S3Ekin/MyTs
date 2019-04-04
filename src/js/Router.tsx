@@ -3,8 +3,9 @@ import {Link,BrowserRouter} from "react-router-dom";
 import * as React from "react";
 import lazyComponent from "@js/common/Boudle";
 
-//import  App from "./index";
-//import About from "./containers/about/About";
+import * as loadable from "react-loadable"
+
+
 
 
 const Nav = ()=>(
@@ -18,7 +19,13 @@ const Page = ()=>(
 						<BrowserRouter basename="/asdf">
 							<Nav/>
 							<Switch>
-											<Route path="/about" component={lazyComponent(()=>import(/* webpackChunkName: "about" */"./containers/about/About"))}  />
+										
+
+							<Route path="/about" component={loadable({
+									loader:()=>import(/* webpackChunkName: "about" */"./containers/about/About"),
+									loading:()=><div>loading...</div>
+
+							})}  />
 									
 											<Route path="/todo" 
 												component={lazyComponent(()=>import(/* webpackChunkName: "todo" */"@js/index"))}

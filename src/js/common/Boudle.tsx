@@ -35,9 +35,11 @@ class Boundle extends React.Component<BoundleProp>{
 			this.load();
 	}
 
-	componentWillReceiveProps(){
+	componentWillReceiveProps(nextProps:any){
 
-
+	 if(nextProps.asyncLoad !== this.props.asyncLoad) {
+            this.load();
+    }
 
 	}
 
