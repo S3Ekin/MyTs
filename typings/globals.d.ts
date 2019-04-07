@@ -1,3 +1,6 @@
+
+
+
 interface Window{
 	__REDUX_DEVTOOLS_EXTENSION__:any;
 }
@@ -20,6 +23,10 @@ interface State {
          }	
   	 }
 }
+
+
+
+
 
 interface NodeModule {
         hot : {

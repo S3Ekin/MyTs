@@ -63,16 +63,19 @@ const fetchPosts = function(subreddit:string){
 }
 
 //是否需要刷新
-const shouldFetchPost = function(state:State,subscreddit:string){
+type stateImmutable = {
+	postBySubreddit: SEkin
+}
+const shouldFetchPost = function(state:stateImmutable,subscreddit:string){
 
-			const posts = state.postBySubreddit[subscreddit];
+			const posts = state.postBySubreddit[(subscreddit as "reactjs")];
 
 			if(!posts){
 					return true;
-			}else if(posts.isFectching){
+			}else if(posts.get("isFectching")){
 				  return false
 			}else{
-				  return posts.didInvalidate;
+				  return posts.get("didInvalidate");
 			}
 };
 // 这是一个action 

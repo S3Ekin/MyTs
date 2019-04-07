@@ -21,16 +21,18 @@ const Page = ()=>(
 							<Switch>
 										
 
-							<Route path="/about" component={loadable({
-									loader:()=>import(/* webpackChunkName: "about" */"./containers/about/About"),
-									loading:()=><div>loading...</div>
+								<Route path="/about" component={loadable({
+										loader:()=>import(/* webpackChunkName: "about" */"./containers/about/About"),
+										loading:()=><div>loading...</div>
 
-							})}  />
+								})}  />
 									
-											<Route path="/todo" 
-												component={lazyComponent(()=>import(/* webpackChunkName: "todo" */"@js/index"))}
-											/>
+								<Route path="/todo" 
+									component={lazyComponent(()=>import(/* webpackChunkName: "todo" */"@js/index"))}
+								/>
 							</Switch>
+				
+							<div id="modal" className="modal"> </div>
 						</BrowserRouter>
 
 	);

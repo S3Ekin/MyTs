@@ -1,14 +1,18 @@
 import {connect} from "react-redux";
-
+import * as Immutable from "immutable";
 import TodoList from "../components/TodoList";
 
-const mapStateToProp = (state:State)=>{
 
 
-	const {items=[],isFectching=false} = state.postBySubreddit[state.selectSubreddit] || {};
 
+ 
+const mapStateToProp = (state:any)=>{
+
+	const $$data:any =   state.postBySubreddit.get(state.selectSubreddit) || Immutable.Map({isFectching:false,items:[]}) 
+
+	const isFectching = $$data.get("isFectching");
 	return {
-		todos:items,
+		todos:$$data.get("items"),
 		isFectching
 		}
 };

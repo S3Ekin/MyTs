@@ -1,15 +1,16 @@
 import * as React from "react";
+
 import Menu from "../../common/Menu";
 
 import {Route} from "react-router-dom"
 
+import Modal from "@js/common/Modal";
 
 // react组件的全局的context
 const ThemeContext = React.createContext("dark");
 const Theme = ()=>(
-
 		<ThemeContext.Consumer >
-			{(theme:any)=> <button>{theme}</button>}
+			{(theme:any)=> <button >{theme}</button>}
 		</ThemeContext.Consumer>
 
 	);
@@ -57,6 +58,41 @@ const data = [
 	}
 ];
 
+class ShowModal extends React.Component{
+
+
+
+	state = {
+		show:false,
+	}
+
+	handle=()=>{
+
+		// 不要在 setState 里用 this.state的属性的值 ，setState是异步的
+		this.setState((preState:any)=>({show:!preState.show}))
+	}
+	render(){
+
+		const modal = this.state.show ? (<Modal handle={this.handle} >
+			我是模态框
+		</Modal>) :null ;
+
+		return (
+
+				<div>
+						<p>模态框的测试</p>
+					<button
+						onClick={this.handle}
+					>toggle</button>
+					{modal}
+
+				</div>
+			)
+
+
+	}
+}
+
 const Abouts = ()=>{
 
 	return (
@@ -102,7 +138,6 @@ class About extends React.Component{
 		}
 	componentWillUpdate(){
 
-		console.log(34);
 	
 
 	}
@@ -111,7 +146,6 @@ class About extends React.Component{
 
 		const next = arg[1];
 
-		console.log(next)
 
 		if(this.state.load != next.load){
 				this.load();
@@ -132,6 +166,7 @@ class About extends React.Component{
 							onClick={this.change}
 						>6666</button>
 						<div>
+						<ShowModal/>
 							<p>嵌套路由</p>
 								<Route path="/about/theme" component={Theme} />
 								<Route path="/about/other" component={Other} />

@@ -14,11 +14,16 @@ const TodoList = (props:props)=>{
 		<p>状态：{props.isFectching ? "loading" : "finished"}</p>
 		<ul>
 				{
-					props.todos.map(({id,title}:Todo)=>(
+					props.todos.map((todo:any)=>{
+
+							const {title,id} = todo.toObject();
+
+						return (
 
 							<Todo  text={title} key={id} />
 
-						))
+						)
+					})
 				}
 
 		</ul>

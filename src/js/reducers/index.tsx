@@ -1,4 +1,5 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
+import * as Immutable from "immutable";
 import {
   RECEIVE_POSTS,
   REQUEST_POSTS,
@@ -23,56 +24,93 @@ const selectSubreddit = function(state:State["selectSubreddit"]="reactjs",action
       return state;
     }
 };
+
+
+
+
+
+
+
+
+const PostBySubredditRecordData = Immutable.Record({
+   "reactjs":Immutable.Map({
+           isFectching:false,
+           didInvalidate:true,
+           items:Immutable.List(),
+           lastUpdated:0,
+    }),
+   "fontEnd":Immutable.Map({
+           isFectching:false,
+           didInvalidate:true,
+           items:Immutable.List(),
+           lastUpdated:0,
+    }),
+  }
+);
+
+
+
+class PostBySubredditRecord extends PostBySubredditRecordData {
+    "reactjs":Immutable.Map<string,number | boolean | Immutable.List<string>>;
+    "fontEnd":Immutable.Map<string,number | boolean | Immutable.List<string>>;
+}
+
+const initialState = new PostBySubredditRecord();
+
+declare global {
+
+   interface SEkin extends PostBySubredditRecord{
+   
+   }
+
+}
+
+ 
+
 // 再拆分state
-const posts = function(state: State["postBySubreddit"][keyof State["postBySubreddit"]] = {
-     isFectching:false,
-     didInvalidate:false,
-     items:[],
-     lastUpdated:0
-  },action:actionType){
+const posts = function(state:PostBySubredditRecord["reactjs"],action:actionType){
 
 
   switch (action.type) {
     case RECEIVE_POSTS:
-        return {
-          ...state,
-           isFectching:false,
-           didInvalidate:false,
-           items:action.json,
-           lastUpdated:action.lastUpdated,
-        }
+        return state.merge(state,Immutable.fromJS({
+              isFectching:false,
+              didInvalidate:false,
+              items:action.json,
+              lastUpdated:action.lastUpdated,
+
+        }))
       break;
     case REQUEST_POSTS:
-      return {
-        ...state,
-        isFectching:true,
-        didInvalidate:false,
-      }
+    
+       return state.merge(state,Immutable.Map({
+               isFectching:true,
+                didInvalidate:false,
+
+        }))
       break;
     case INVALIDATE_SUBREDDIT:
-     return {
-        ...state,
-        didInvalidate:true,
-      }
+     return state.set("didInvalidate",true)
       break;
-    
     default:
       return state ;
       break;
   }
 }
 
-const postBySubreddit = function(state:State["postBySubreddit"]={},action:actionType){
+
+
+const postBySubreddit = function(state:PostBySubredditRecord=initialState,action:actionType){
 
   switch (action.type) {
     case RECEIVE_POSTS:
     case REQUEST_POSTS:
     case INVALIDATE_SUBREDDIT:
-     
-     return {
-        ...state,
-        [action.subreddit]:posts(state[action.subreddit],action),
-      }
+
+
+      return state.set(action.subreddit,posts(state.get(action.subreddit),action));
+    
+   
       break;
     
     default:
@@ -80,7 +118,7 @@ const postBySubreddit = function(state:State["postBySubreddit"]={},action:action
       break;
   }
 
-
+  console.log(state,)
 
 
 };

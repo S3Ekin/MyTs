@@ -5,6 +5,7 @@ import AddTodo from "./containers/AddTodo";
 import {fetchPostsIfNeeded} from "./actions/index"
 
 
+
 type props = {
 	dispatch:Function;
 	subreddit:string;
@@ -21,10 +22,14 @@ class App extends React.Component<props>{
 
 	render(){
 
-			return (<div>
-							<AddTodo/>
-							<VisiblityTodoList />
-						</div>)
+			return (
+				<>
+					<div>
+								<AddTodo/>
+								<VisiblityTodoList />
+					</div>
+				</>
+					)
 
 
 	}

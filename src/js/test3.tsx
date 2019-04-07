@@ -1,9 +1,9 @@
 import * as React from "react";
 //import * as ReactDom from "react-dom" ;
 
-import * as  Immutable  from "immutable" ;
 
-console.log(Immutable,"34");
+
+
 
 
 type Props = {
