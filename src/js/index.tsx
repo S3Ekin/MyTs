@@ -2,8 +2,8 @@ import * as React from "react" ;
 import {connect} from "react-redux"
 import VisiblityTodoList from "./containers/VisiblityTodoList";
 import AddTodo from "./containers/AddTodo";
-import {fetchPostsIfNeeded} from "./actions/index"
-
+import {fetchPostsIfNeeded} from "./actions/index";
+import ErrorBoundary from "@js/common/ErrorBoundary";
 
 
 type props = {
@@ -26,7 +26,9 @@ class App extends React.Component<props>{
 				<>
 					<div>
 								<AddTodo/>
-								<VisiblityTodoList />
+								<ErrorBoundary>
+									<VisiblityTodoList />
+								</ErrorBoundary>
 					</div>
 				</>
 					)

@@ -27,11 +27,6 @@ const selectSubreddit = function(state:State["selectSubreddit"]="reactjs",action
 
 
 
-
-
-
-
-
 const PostBySubredditRecordData = Immutable.Record({
    "reactjs":Immutable.Map({
            isFectching:false,
