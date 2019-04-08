@@ -3,8 +3,13 @@ const webpack = require("webpack");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin"); 
 const CleanDistPlugin = require("clean-webpack-plugin");
-module.exports = {
-	  devtool:"eval-source-map",
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = env =>{
+
+  const id_dev = env === "development" ;
+	return {
+	  devtool: id_dev ? "eval-source-map" : "source-map",
 		entry:{
 			main:path.join(__dirname,"src/App.tsx"),
 		},
@@ -12,9 +17,9 @@ module.exports = {
 			path:path.join(__dirname,"dist"),
 			filename:"[name].js",
 			publicPath:"/",
-			chunkFilename:'js/[name].[chunkhash:5].chunk.js',
+			chunkFilename:id_dev ? 'js/[name].[chunkhash:5].chunk.js' :'js/[name].chunk.js',
 		},
-		mode:"development",	
+		mode:env,	
 		module:{
 			rules:[
 				{
@@ -31,8 +36,16 @@ module.exports = {
 					test:/.(css|scss)$/,
 					exclude: /node_modules|assert/, // 排除不处理的目录
 				  include: path.resolve(__dirname, 'src'), // 精确指定要处理的目录
+				
 					use: [
-									{
+
+									!id_dev ? {
+										loader:MiniCssExtractPlugin.loader,
+										 options: {
+								            sourceMap: true,
+								            publicPath:"/",
+								          }
+									}:{
 										loader:"style-loader",
 										 options: {
 								            sourceMap: true,
@@ -67,40 +80,63 @@ module.exports = {
 		        },
 		},
 		optimization: {
-			///	minimize: false,
+			minimize: false,
+		  namedModules: true,
+			namedChunks: true,
+			chunkIds: 'named',
+			moduleIds: 'named',
+			runtimeChunk: {//包清单
+				name: "manifest"
+			},
 			splitChunks: {
-      chunks: 'async',
-     // minSize: 30000,
-    //   maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      name: true,
-      cacheGroups: {
-        vendors: {
-       						test: /node_modules/,
-					        chunks:"all" ,
-					        name: "vendor",
-					        priority: 10,
-					        enforce: true
-        },
-      }
-    }
+				automaticNameDelimiter:"*",
+	      chunks: 'all',
+	      // minSize: 30000,
+	      // maxSize: 0,
+	      minChunks: 2,
+	      maxAsyncRequests: 5,
+	      maxInitialRequests: 3,
+	      name: id_dev,
+	      cacheGroups: {
+	        vendors: {
+     						test: /node_modules/,
+				        chunks:"all" ,
+				        name: "vendor",
+				        priority: 10,
+				        enforce: true
+	        },
+	        /*vendors: {
+	          test: /[\\/]node_modules[\\/]/,
+	          priority: -10
+	        },
+	        default: {
+	          minChunks: 2,
+	          priority: -20,
+	          reuseExistingChunk: true
+	        }*/
+ 
+	      },
+    	}
 
 		},
 		plugins:[
-
+			   new MiniCssExtractPlugin({
+			      // Options similar to the same options in webpackOptions.output
+			      // both options are optional
+			      filename: id_dev ? 'css/[name].css' : 'css/[name].[hash].css',
+			      chunkFilename: id_dev ? 'css/[id].css' : 'css/[id].[hash].css',
+			    }),
 				new htmlWebpackPlugin({
 						title:"ts-react",
 						filename:"index.html",
 						inject:"body",
 						hash:true,
 						template:path.join(__dirname,"src/index.html"),
-						chunks:["vendor","main"]
+						chunks:["manifest","vendor","main"]
 				}),
-				new CleanDistPlugin({cleanOnceBeforeBuildPatterns:['dist']}),
-			 new webpack.HotModuleReplacementPlugin(),//模块的热替换
-	 		 new webpack.NamedModulesPlugin(), //热更新时显示更新的模块的名字，默认是模块的id
+				new CleanDistPlugin(),
+			  new webpack.HotModuleReplacementPlugin(),//模块的热替换
+	 		  new webpack.NamedModulesPlugin(), //热更新时显示更新的模块的名字，默认是模块的id
 
 		],
 		devServer: {
@@ -132,4 +168,6 @@ module.exports = {
 		            }
 		        }
     		},
-}
+	}
+} 
+

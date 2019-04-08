@@ -11,8 +11,16 @@ import * as ReactDom from "react-dom" ;
 
 
 
-const middleware = [thunk,logger,];
-const store  = createStore(rootRecuders,compose(applyMiddleware(...middleware),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+const middleware = [thunk,logger];
+let store:any;
+
+if(window.__REDUX_DEVTOOLS_EXTENSION__){
+	store  = createStore(rootRecuders,compose(applyMiddleware(...middleware),window.__REDUX_DEVTOOLS_EXTENSION__()));
+}else{
+	store  = createStore(rootRecuders,applyMiddleware(...middleware));
+}
+
+/*const store  = createStore(rootRecuders,compose(applyMiddleware(...middleware),window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));*/
 
 
 const domApp = document.getElementById("app");
